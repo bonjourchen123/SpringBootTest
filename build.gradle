@@ -1,0 +1,40 @@
+buildscript {
+	apply from: "config.gradle";
+	
+	repositories {
+		// 採用 Maven 公開伺服器，作為 Open Source 函式庫
+		mavenCentral();
+	}
+	
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}");
+	}
+}
+
+allprojects {
+	// 引用其他 gradle plugin
+	apply plugin: 'java';
+	apply plugin: 'eclipse';
+	apply plugin: 'org.springframework.boot';
+	
+	[compileJava, compileTestJava, javadoc]*.options*.encoding = "${encoding}";
+	sourceCompatibility = "${javaVersion}";
+	targetCompatibility = "${javaVersion}";
+	
+	// 設定編譯後的 jar 訊息
+	jar {
+	    baseName = '${jarName}';
+	    version = '${jarVersion}';
+	}
+	
+	repositories {
+		// 採用 Maven 公開伺服器，作為 Open Source 函式庫
+		mavenCentral();
+	}
+	
+	dependencies {
+		// 引入 spirnt boot jar
+		compile("org.springframework.boot:spring-boot-starter-web");
+		testCompile('org.springframework.boot:spring-boot-starter-test');
+	}
+}

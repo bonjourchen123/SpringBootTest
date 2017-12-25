@@ -1,0 +1,7 @@
+ext {
+	javaVersion = "1.8";
+	encoding = 'UTF-8';
+	springBootVersion = '1.5.9.RELEASE';
+	jarName = "sprint-boot-test";
+	jarVersion = "1.0";
+}
