@@ -8,6 +8,6 @@ import com.core.services.HomeServices;
 public class HomeServicesImpl implements HomeServices {
 
 	public String sayHello() {
-        return "hello spring boot";
+        return "Hello Thymeleaf";
     }
 }

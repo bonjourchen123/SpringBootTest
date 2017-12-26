@@ -2,7 +2,7 @@ buildscript {
 	apply from: "config.gradle";
 	
 	repositories {
-		// ±Ä¥Î Maven ¤½¶}¦øªA¾¹¡A§@¬° Open Source ¨ç¦¡®w
+		// æ¡ç”¨ Maven å…¬é–‹ä¼ºæœå™¨ï¼Œä½œç‚º Open Source å‡½å¼åº«
 		mavenCentral();
 	}
 	
@@ -12,7 +12,7 @@ buildscript {
 }
 
 allprojects {
-	// ¤Ş¥Î¨ä¥L gradle plugin
+	// å¼•ç”¨å…¶ä»– gradle plugin
 	apply plugin: 'java';
 	apply plugin: 'eclipse';
 	apply plugin: 'org.springframework.boot';
@@ -21,20 +21,22 @@ allprojects {
 	sourceCompatibility = "${javaVersion}";
 	targetCompatibility = "${javaVersion}";
 	
-	// ³]©w½sÄ¶«áªº jar °T®§
+	// è¨­å®šç·¨è­¯å¾Œçš„ jar è¨Šæ¯
 	jar {
 	    baseName = '${jarName}';
 	    version = '${jarVersion}';
 	}
 	
 	repositories {
-		// ±Ä¥Î Maven ¤½¶}¦øªA¾¹¡A§@¬° Open Source ¨ç¦¡®w
+		// æ¡ç”¨ Maven å…¬é–‹ä¼ºæœå™¨ï¼Œä½œç‚º Open Source å‡½å¼åº«
 		mavenCentral();
 	}
 	
 	dependencies {
-		// ¤Ş¤J spirnt boot jar
-		compile("org.springframework.boot:spring-boot-starter-web");
+		// å¼•å…¥ spirnt boot
+		// compile("org.springframework.boot:spring-boot-starter-web");
+		// å¼•å…¥ spirnt boot + thymeleaf
+		compile("org.springframework.boot:spring-boot-starter-thymeleaf");
 		testCompile('org.springframework.boot:spring-boot-starter-test');
 	}
 }

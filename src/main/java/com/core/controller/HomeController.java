@@ -1,20 +1,22 @@
 package com.core.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.core.services.HomeServices;
 
-@RestController
+@Controller
 public class HomeController {
 	
 	@Autowired
 	private HomeServices homeServices;
 	
-	@RequestMapping("/index")
-	public String index() {
-		return homeServices.sayHello();
+	@RequestMapping("/")
+	public String index(Model model) {
+		model.addAttribute("msg", homeServices.sayHello());
+		return "index";
 	}
 	
 }
