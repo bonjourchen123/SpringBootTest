@@ -37,6 +37,8 @@ allprojects {
 		// compile("org.springframework.boot:spring-boot-starter-web");
 		// 引入 spirnt boot + thymeleaf
 		compile("org.springframework.boot:spring-boot-starter-thymeleaf");
+		// 更換 thymeleaf html5 嚴格限制
+		compile('net.sourceforge.nekohtml:nekohtml');
 		testCompile('org.springframework.boot:spring-boot-starter-test');
 	}
 }
