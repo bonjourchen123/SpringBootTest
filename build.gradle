@@ -13,18 +13,31 @@ buildscript {
 
 allprojects {
 	// 引用其他 gradle plugin
-	apply plugin: 'java';
-	apply plugin: 'eclipse';
-	apply plugin: 'org.springframework.boot';
+	apply plugin: "java";
+	apply plugin: "eclipse";
+	apply plugin: "org.springframework.boot";
+	// 打包工具
+	apply plugin: "application";
 	
 	[compileJava, compileTestJava, javadoc]*.options*.encoding = "${encoding}";
 	sourceCompatibility = "${javaVersion}";
 	targetCompatibility = "${javaVersion}";
 	
+	// 設定編譯後的 jar 啟動位置(main 方法)
+	mainClassName = "${mainClass}";
+	
 	// 設定編譯後的 jar 訊息
 	jar {
-	    baseName = '${jarName}';
-	    version = '${jarVersion}';
+	    // 打包包含依賴的 jar (由application 取代)
+	    // from {configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }};
+	
+	    baseName = "${jarName}";
+	    version = "${jarVersion}";
+	    
+	    // 設定編譯後的 jar 啟動位置(main 方法) (由application 取代)
+	    // manifest {
+        	// attributes "Main-Class": "${mainClass}";
+    	// }
 	}
 	
 	repositories {
@@ -34,11 +47,17 @@ allprojects {
 	
 	dependencies {
 		// 引入 spirnt boot
-		// compile("org.springframework.boot:spring-boot-starter-web");
+		compile("org.springframework.boot:spring-boot-starter");
+		compile("org.springframework.boot:spring-boot-starter-web");
 		// 引入 spirnt boot + thymeleaf
 		compile("org.springframework.boot:spring-boot-starter-thymeleaf");
 		// 更換 thymeleaf html5 嚴格限制
-		compile('net.sourceforge.nekohtml:nekohtml');
-		testCompile('org.springframework.boot:spring-boot-starter-test');
+		compile("net.sourceforge.nekohtml:nekohtml");
+		// 引入 spring data jpa
+		compile("org.springframework.boot:spring-boot-starter-data-jpa");
+		// 引入 mysql
+		compile("mysql:mysql-connector-java");
+		
+		testCompile("org.springframework.boot:spring-boot-starter-test");
 	}
 }

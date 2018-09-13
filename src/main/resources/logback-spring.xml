@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<springProperty scope="context" name="logging.path" source="logging.path" defaultValue="D:"/>
+	<springProperty scope="context" name="logging.filename" source="logging.filename" defaultValue="logback"/>
+	<springProperty scope="context" name="logging.encoding" source="logging.encoding" defaultValue="UTF-8"/>
+	<springProperty scope="context" name="logging.level.root" source="logging.level.root" defaultValue="info"/>
+
+	<contextName>${logging.filename}</contextName>
+
+	<!-- 输出到控制台 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+			<charset>${logging.encoding}</charset>
+		</encoder>
+	</appender>
+	
+	<!-- 输出到文件 -->
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logging.path}/${logging.filename}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- 設定保留日誌天數 -->
+			<maxHistory>365</maxHistory>
+			<!-- 設定日誌的容量上限,超過則會清除 -->
+			<totalSizeCap>1GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+			<charset>${logging.encoding}</charset>
+		</encoder>
+	</appender>
+	
+	<root level="${logging.level.root}">
+		<appender-ref ref="console" />
+        <appender-ref ref="file" />
+	</root>
+</configuration>
