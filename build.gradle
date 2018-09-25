@@ -57,6 +57,8 @@ allprojects {
 		compile("org.springframework.boot:spring-boot-starter-data-jpa");
 		// 引入 mysql
 		compile("mysql:mysql-connector-java");
+		// google api client
+		compile("com.google.firebase:firebase-admin:6.4.0");
 		
 		testCompile("org.springframework.boot:spring-boot-starter-test");
 	}
