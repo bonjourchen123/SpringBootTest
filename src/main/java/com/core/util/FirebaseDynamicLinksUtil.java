@@ -89,14 +89,15 @@ public class FirebaseDynamicLinksUtil {
 	 * 使用 firebase Dynamic Links 提供之 restful api 建立短網址
 	 * (rstful 資料文件 https://firebase.google.com/docs/reference/dynamic-links/link-shortener)
 	 * 
-	 * @param dimain 建立短網址的網域
+	 * @param domain 建立短網址的網域
 	 * @param url 要編成短網址的內容
 	 * @return
 	 */
-	public static String buildDynamicLinkByFirebase(String dimain, String url){
+	@SuppressWarnings("unchecked")
+	public static String buildDynamicLinkByFirebase(String domain, String url){
 		String shortLink = null;
 		
-		if(! StringUtils.isEmpty(dimain) && ! StringUtils.isEmpty(url)){
+		if(! StringUtils.isEmpty(domain) && ! StringUtils.isEmpty(url)){
 			RestTemplate restTemplate = new RestTemplate();
 			
 			// 參數範例
@@ -108,7 +109,7 @@ public class FirebaseDynamicLinksUtil {
 			//	}
 			Map<String, Map<String, String>> params = new HashMap<String, Map<String, String>>();
 			Map<String, String> dynamicLinkInfo = new HashMap<String, String>(); 
-			dynamicLinkInfo.put("dynamicLinkDomain", dimain);
+			dynamicLinkInfo.put("dynamicLinkDomain", domain);
 			dynamicLinkInfo.put("link", url);
 			params.put("dynamicLinkInfo", dynamicLinkInfo);
 			
@@ -128,6 +129,7 @@ public class FirebaseDynamicLinksUtil {
 	 * @param durationDays 查詢期限
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String, Object> analyticsFirebaseDynamicLink(String shortLink, String durationDays){
 		Map<String, Object> result = null;
 		
