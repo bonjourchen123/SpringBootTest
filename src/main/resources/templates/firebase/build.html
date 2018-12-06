@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SpringBootTest</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h3>短網址如下</h3><br>
+    <h3 th:text="${shortLink}"></h3>
+    <br>
+    <button onclick="goBack()">回首頁</button>
+    
+    <script type="text/javascript" language="javascript">
+    	function goBack(){
+    		location.href = "../dynamicLinksUtil"
+    	}
+    </script>
+</body>
+</html>

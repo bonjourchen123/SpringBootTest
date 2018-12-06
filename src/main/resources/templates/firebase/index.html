@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SpringBootTest</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- CSS和JS的根目錄都在static -->
+</head>
+<body>
+    <h3 th:text="${title}"></h3>
+    <h3>產生短網址</h3>
+           網域: <input type="text" id="domain" placeholder="mysimple.page.link" size="20">
+    <br>
+           網址: <input type="text" id="url" placeholder="https://www.tstartel.com/CWS/" size="50">
+    <br>
+    <button onclick="build()">產生短網址</button>
+    <br><br><br>
+    <h3>分析短網址</h3>
+           時間: <input type="text" id="durationDays" placeholder="999" size="20">
+   	<br>
+   	網址: <input type="text" id="shortLink" placeholder="https://mysimple.page.link/gfWN7Jpzz2fMJLD78" size="50">
+    <br>
+    <button onclick="analytics()">分析短網址</button>
+    
+    <script type="text/javascript" language="javascript">
+    	// 產生
+    	function build(){
+    		var domain = document.getElementById("domain").value;
+    		var url = document.getElementById("url").value;
+    		
+    		if(isEmpty(domain) || isEmpty(url)){
+    			alert("請填入資料");
+    		}else{
+    			location.href = "dynamicLinksUtil/build?domain=" + domain + "&url=" + url;
+    		}
+    	}
+    	
+    	// 分析
+    	function analytics(){
+    		var shortLink = document.getElementById("shortLink").value;
+    		var durationDays = document.getElementById("durationDays").value;
+    		
+    		if(isEmpty(shortLink) || isEmpty(durationDays)){
+    			alert("請填入資料");
+    		}else{
+    			location.href = "dynamicLinksUtil/analytics?shortLink=" + shortLink + "&durationDays=" + durationDays;
+    		}
+    	}
+    
+    	// 資料是否為空
+        function isEmpty(data){
+    		if(data == null || data == undefined || data == "") return true;
+    		else return false;
+    	};
+    </script>
+    
+</body>
+</html>
