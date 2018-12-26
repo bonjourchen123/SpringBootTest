@@ -91,10 +91,15 @@ public class FirebaseDynamicLinksUtil {
 	 * 
 	 * @param domain 建立短網址的網域
 	 * @param url 要編成短網址的內容
+	 * @param title 標題
+	 * @param description 細節
+	 * @param imageLink 圖片網址
+	 * @param suffixIsShort 後綴網址是否用短的(4碼)(長為17碼)
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static String buildDynamicLinkByFirebase(String domain, String url){
+	public static String buildDynamicLinkByFirebase(String domain, String url, 
+			String title, String description, String imageLink, boolean suffixIsShort){
 		String shortLink = null;
 		
 		if(! StringUtils.isEmpty(domain) && ! StringUtils.isEmpty(url)){
@@ -103,15 +108,43 @@ public class FirebaseDynamicLinksUtil {
 			// 參數範例
 			//  {
 			//	  "dynamicLinkInfo": {
-			//	    "dynamicLinkDomain": "bonjourtest.page.link",
-			//	    "link": "https://www.google.com.tw/"
-			//	  }
+			//	    "domainUriPrefix": "bonjourtest.page.link",
+			//	    "link": "https://www.google.com.tw/",
+		    //      "socialMetaTagInfo": {
+			//          "socialTitle": "這是標題",
+			//          "socialDescription": "這是細節文字",
+		    //          "socialImageLink": "這是圖片網址"
+		    //      }
+			//	  },
+			//    "suffix": {
+			//      "option": "SHORT" or "UNGUESSABLE"
+			//    }
 			//	}
-			Map<String, Map<String, String>> params = new HashMap<String, Map<String, String>>();
-			Map<String, String> dynamicLinkInfo = new HashMap<String, String>(); 
-			dynamicLinkInfo.put("dynamicLinkDomain", domain);
+			Map<String, Object> dynamicLinkInfo = new HashMap<String, Object>(); 
+			dynamicLinkInfo.put("domainUriPrefix", domain);
 			dynamicLinkInfo.put("link", url);
+			
+			// 細節資訊 非必填
+			if(! StringUtils.isEmpty(title) || ! StringUtils.isEmpty(description) || ! StringUtils.isEmpty(imageLink)){
+				Map<String, String> socialMetaTagInfo = new HashMap<String, String>();
+				if(! StringUtils.isEmpty(title)){
+					socialMetaTagInfo.put("socialTitle", title);
+				}
+				if(! StringUtils.isEmpty(description)){
+					socialMetaTagInfo.put("socialDescription", description);
+				}
+				if(! StringUtils.isEmpty(imageLink)){
+					socialMetaTagInfo.put("socialImageLink", imageLink);
+				}
+				dynamicLinkInfo.put("socialMetaTagInfo", socialMetaTagInfo);
+			}
+			
+			Map<String, Object> suffix = new HashMap<String, Object>();
+			suffix.put("option", suffixIsShort ? "SHORT" : "UNGUESSABLE"); // SHORT為隨機四碼 UNGUESSABLE為17碼
+			
+			Map<String, Map<String, Object>> params = new HashMap<String, Map<String, Object>>();
 			params.put("dynamicLinkInfo", dynamicLinkInfo);
+			params.put("suffix", suffix);
 			
 			// 呼叫 POST 建立短網址
 			Map<String, Object> resultMap = restTemplate.postForObject(FIREBASE_DYNAMIC_LINK_BUILD_URL + FIREBASE_API_KEY, params, Map.class);
@@ -119,6 +152,31 @@ public class FirebaseDynamicLinksUtil {
 		}
 		
 		return shortLink;
+	}
+	
+	/**
+	 * 使用 firebase Dynamic Links 提供之 restful api 建立短網址
+	 * (rstful 資料文件 https://firebase.google.com/docs/reference/dynamic-links/link-shortener)
+	 * 
+	 * @param domain 建立短網址的網域
+	 * @param url 要編成短網址的內容
+	 * @param suffixIsShort 後綴網址是否用短的(4碼)(長為17碼)
+	 * @return
+	 */
+	public static String buildDynamicLinkByFirebase(String domain, String url, boolean suffixIsShort){
+		return buildDynamicLinkByFirebase(domain, url, null, null, null, suffixIsShort);
+	}
+	
+	/**
+	 * 使用 firebase Dynamic Links 提供之 restful api 建立短網址
+	 * (rstful 資料文件 https://firebase.google.com/docs/reference/dynamic-links/link-shortener)
+	 * 
+	 * @param domain 建立短網址的網域
+	 * @param url 要編成短網址的內容
+	 * @return
+	 */
+	public static String buildDynamicLinkByFirebase(String domain, String url){
+		return buildDynamicLinkByFirebase(domain, url, true);
 	}
 	
 	/**
