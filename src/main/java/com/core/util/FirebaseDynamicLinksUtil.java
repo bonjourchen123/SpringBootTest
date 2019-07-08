@@ -36,7 +36,7 @@ public class FirebaseDynamicLinksUtil {
 	private static String FIREBASE_API_KEY;
 	
 	@Value("${firebase.api.key}")
-	private void serFirebaseApiKey(String firebaseApiKey){
+	private void setFirebaseApiKey(String firebaseApiKey){
 		FIREBASE_API_KEY = firebaseApiKey;
 	}
 	
@@ -46,7 +46,7 @@ public class FirebaseDynamicLinksUtil {
 	private static String GOOGLE_DATA_PATH;
 	
 	@Value("${google.data.path}")
-	private void serGoogleDataPath(String googleDataPath){
+	private void setGoogleDataPath(String googleDataPath){
 		GOOGLE_DATA_PATH = googleDataPath;
 	}
 	
